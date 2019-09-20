@@ -43,8 +43,8 @@ install:
 script:
   - gcc -g -coverage -o avg-test avg-test.c
   - ./avg-test
-  - gcc -g -coverage -o gcd-test gcd-test.c
-  - ./gcd-test
+  - gcc -g -coverage -o sort-test sort-test.c
+  - ./sort-test
   - lcov --capture --directory . --output-file coverage.info
   - genhtml coverage.info --output-directory coverage-html
 
