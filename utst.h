@@ -1,48 +1,74 @@
+//========================================================================
+// UTST
+//========================================================================
+// A very simple set of macros for unit testing.
+//
+// Author: Yanghui Ou
+// Date  : September 13, 2019
+//
 
-#ifndef TEST_UTILS_H
-#define TEST_UTILS_H
+#ifndef UTST_H
+#define UTST_H
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 #include <math.h>
 
-#define UTST_BEGIN() \
-  printf("------- Testing %s -------\n\n", __FILE__);
-#define UTST_END() \
-  printf("\n------- Finished testing %s -------\n", __FILE__);
+#define COLOR_RED   "\033[31m"
+#define COLOR_GREEN "\033[32m"
+#define COLOR_RESET "\033[0m"
 
-#define UTST_ASSERT_TRUE( x ) \
-  if ( !(x) ) { \
-    printf("Line %d: [ FAILED ]\n", __LINE__); \
-    return 1; \
+//------------------------------------------------------------------------
+// UTST_ASSERT_TRUE( expr_ )
+//------------------------------------------------------------------------
+// Checks to see if the expression is true.
+
+#define UTST_ASSERT_TRUE( expr_ ) \
+  if ( !(expr_) ) { \
+    printf(" - [ " COLOR_RED "FAILED" COLOR_RESET " ] Line %d\n", __LINE__); \
+    exit( 1 ); \
   } else { \
-    printf("Line %d: [ passed ]\n", __LINE__); \
+    printf(" - [ " COLOR_GREEN "passed" COLOR_RESET " ] Line %d\n", __LINE__); \
   }
 
-#define UTST_ASSERT_FALSE( x ) \
-  if ( (x) ) { \
-    printf("Line %d: [ FAILED ]\n", __LINE__); \
-    return 1; \
+//------------------------------------------------------------------------
+// UTST_ASSERT_FALSE( expr_ )
+//------------------------------------------------------------------------
+// Checks to see if the expression is false.
+
+#define UTST_ASSERT_FALSE( expr_ ) \
+  if ( (expr_) ) { \
+    printf(" - [ " COLOR_RED "FAILED" COLOR_RESET " ] Line %d\n", __LINE__); \
+    exit( 1 ); \
   } else { \
-    printf("Line %d: [ passed ]\n", __LINE__); \
+    printf(" - [ " COLOR_GREEN "passed" COLOR_RESET " ] Line %d\n", __LINE__); \
   }
 
-#define UTST_ASSERT_INT_EQ( x, y ) \
-  if ( (x) != (y) ) { \
-    printf("Line %d: [ FAILED ] %d != %d\n", __LINE__, (x), (y)); \
-    return 1; \
+//------------------------------------------------------------------------
+// UTST_ASSERT_INT_EQ( expr0_, expr1_ )
+//------------------------------------------------------------------------
+// Checks to see if the two expressions are equal using the != operator.
+
+#define UTST_ASSERT_INT_EQ( expr0_, expr1_ ) \
+  if ( (expr0_) != (expr1_) ) { \
+    printf(" - [ " COLOR_RED "FAILED" COLOR_RESET " ] Line %d: %d != %d\n", __LINE__, (expr0_), (expr1_)); \
+    exit( 1 ); \
   } else { \
-    printf("Line %d: [ passed ] %d == %d\n", __LINE__, (x), (y)); \
+    printf(" - [ " COLOR_GREEN "passed" COLOR_RESET " ] Line %d: %d == %d\n", __LINE__, (expr0_), (expr1_)); \
   }
 
-#define UTST_ASSERT_FLOAT_EQ( x, y, eps ) \
-  if ( fabs( (x) - (y) ) > (double) (eps) ) { \
-    printf("Line %d: [ FAILED ] %f != %f\n", __LINE__, (x), (y)); \
-    return 1; \
+//------------------------------------------------------------------------
+// UTST_ASSERT_FLOAT_EQ( expr0_, expr1_ )
+//------------------------------------------------------------------------
+// Checks to see if the two expressions are within eps_ of each other.
+
+#define UTST_ASSERT_FLOAT_EQ( expr0_, expr1_, eps_ ) \
+  if ( fabs( (expr0_) - (expr1_) ) > (double) (eps_) ) {                  \
+  printf(" - [ " COLOR_RED "FAILED" COLOR_RESET " ] Line %d:  %f != %f\n", __LINE__, (expr0_), (expr1_)); \
+    exit( 1 ); \
   } else { \
-    printf("Line %d: [ passed ] %f == %f\n", __LINE__, (x), (y)); \
+    printf(" - [ " COLOR_GREEN "passed" COLOR_RESET " ] Line %d:  %f == %f\n", __LINE__, (expr0_), (expr1_)); \
   }
 
 #endif
-
